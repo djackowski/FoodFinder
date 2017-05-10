@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
 
-        AppEventsLogger.activateApp(getApplication());
+//        AppEventsLogger.activateApp(getApplication());
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override

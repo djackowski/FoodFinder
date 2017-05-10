@@ -3,12 +3,14 @@ package com.foodfinder.categories;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,6 +55,12 @@ public class CategoryActivity extends AppCompatActivity {
 
         adapter = new CategoryAdapter(this, categoryList);
         collapsingToolbarLayout.setTitle("Choose Cuisine");
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.cover);
+        Palette palette = Palette.from(bitmap).generate();
+        //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimary));
+        collapsingToolbarLayout.setExpandedTitleColor(palette.getLightVibrantColor(getResources().getColor(R.color.colorPrimary)));
+
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -78,18 +86,18 @@ public class CategoryActivity extends AppCompatActivity {
         Category japanese = new Category("Japanese", 44, R.drawable.japanese);
         Category polish = new Category("Polish", 192, R.drawable.polish);
         Category vietnamese = new Category("Vietnamese", 23, R.drawable.vietnamese);
-//        Category lithuanian = new Category("Lithuanian", 46, R.drawable.lithuanian);
+        Category lithuanian = new Category("Lithuanian", 46, R.drawable.lithuanian);
         Category jewish = new Category("Jewish", 71, R.drawable.jewish);
-//        Category french = new Category("French", 9, R.drawable.french);
+        Category french = new Category("French", 9, R.drawable.french);
 
         categoryList.add(greek);
-//        categoryList.add(chinese);
+        categoryList.add(chinese);
         categoryList.add(japanese);
         categoryList.add(polish);
         categoryList.add(vietnamese);
-//        categoryList.add(lithuanian);
+        categoryList.add(lithuanian);
         categoryList.add(jewish);
-//        categoryList.add(french);
+        categoryList.add(french);
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

@@ -1,6 +1,9 @@
 package com.foodfinder.categories;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,9 +39,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.getName().setText(category.getName());
-        //holder.getQuantity().setText(String.valueOf(category.getQuantity()));
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+                category.getThumbnail());
+        Palette palette = Palette.from(bitmap).generate();
 
+        holder.getName().setTextColor(palette.getLightVibrantColor(context.getResources().getColor(R.color.colorPrimary)));
+        holder.getName().setBackgroundColor(context.getResources().getColor(R.color.blackTransparent));
         Glide.with(context).load(category.getThumbnail()).into(holder.getThumbnail());
+
     }
 
     @Override
