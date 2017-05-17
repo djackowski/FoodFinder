@@ -6,9 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,9 +18,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.example.models.Category;
 import com.foodfinder.R;
 import com.foodfinder.publishing.PublishActivity;
+import com.foodfinder.seeking.SeekRestaurantActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +31,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity implements CategoryAdapter.CategoryItemListener {
+    public static final String EXTRA_CATEGORY_IMAGE_TRANSITION_NAME = "image_transition_name";
+    public static final String EXTRA_CATEGORY_ITEM = "category_extras";
+    public static final String EXTRA_CATEGORY_NAME_COLOR = "category_name_color";
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.toolbar_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
-    private CategoryAdapter adapter;
     private List<Category> categoryList = new ArrayList<>();
 
 
@@ -52,14 +58,16 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
+        prepareCategories();
 
-        adapter = new CategoryAdapter(this, categoryList);
+        final CategoryAdapter adapter = new CategoryAdapter(this, categoryList, this);
         collapsingToolbarLayout.setTitle("Choose Cuisine");
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.cover);
         Palette palette = Palette.from(bitmap).generate();
         //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimary));
-        collapsingToolbarLayout.setExpandedTitleColor(palette.getLightVibrantColor(getResources().getColor(R.color.colorPrimary)));
+        int lightVibrantColor = palette.getLightVibrantColor(getResources().getColor(R.color.colorPrimary));
+        collapsingToolbarLayout.setExpandedTitleColor(lightVibrantColor);
 
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -67,9 +75,7 @@ public class CategoryActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        prepareCategories();
     }
-
 
 
     /**
@@ -98,6 +104,22 @@ public class CategoryActivity extends AppCompatActivity {
         categoryList.add(lithuanian);
         categoryList.add(jewish);
         categoryList.add(french);
+    }
+
+    @Override
+    public void onItemClickListener(int adapterPosition, Category category, ImageView sharedImageView, int lightVibrantColor) {
+        Intent intent = new Intent(this, SeekRestaurantActivity.class);
+        intent.putExtra(EXTRA_CATEGORY_ITEM, category);
+        String imageViewTransitionName = ViewCompat.getTransitionName(sharedImageView);
+        intent.putExtra(EXTRA_CATEGORY_IMAGE_TRANSITION_NAME, imageViewTransitionName);
+        intent.putExtra(EXTRA_CATEGORY_NAME_COLOR, lightVibrantColor);
+
+
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                sharedImageView, imageViewTransitionName);
+
+        startActivity(intent, options.toBundle());
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

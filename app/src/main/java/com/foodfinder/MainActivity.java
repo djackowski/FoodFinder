@@ -1,10 +1,12 @@
 package com.foodfinder;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
 import com.foodfinder.categories.CategoryActivity;
+import com.foodfinder.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,8 +14,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //TODO: check if user is logged in
-        startActivity(new Intent(this, CategoryActivity.class));
+        if (isLoggedIn()) {
+            startActivity(new Intent(this, CategoryActivity.class));
+        } else {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
         finish();
+    }
+
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daprlabs.cardstack.SwipeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="6">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/seek_restaurant_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/seek_restaurant_cuisine_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded.Shadow"
+            android:textColor="@android:color/white"
+            android:textSize="38sp" />
+
+    </RelativeLayout>
+
+
+    <com.daprlabs.cardstack.SwipeDeck
+        android:id="@+id/swipe_deck"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:padding="20dp"
+        swipedeck:card_spacing="10dp"
+        swipedeck:max_visible="3"
+        swipedeck:render_above="true"
+        swipedeck:rotation_degrees="15" >
+
+
+
+        </com.daprlabs.cardstack.SwipeDeck>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/seek_restaurant_confirm"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/confirm" />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/seek_restaurant_cancel"
+            android:background="@drawable/cancel" />
+
+
+    </RelativeLayout>
+</com.daprlabs.cardstack.SwipeLinearLayout>

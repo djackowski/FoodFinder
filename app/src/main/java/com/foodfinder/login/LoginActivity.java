@@ -14,6 +14,8 @@ import com.facebook.login.widget.LoginButton;
 import com.foodfinder.R;
 import com.foodfinder.categories.CategoryActivity;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,14 +28,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppEventsLogger.activateApp(getApplication());
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
 
         callbackManager = CallbackManager.Factory.create();
-
-//        AppEventsLogger.activateApp(getApplication());
-
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("Facebook: ", "Error");
             }
         });
+
     }
 
     @Override
