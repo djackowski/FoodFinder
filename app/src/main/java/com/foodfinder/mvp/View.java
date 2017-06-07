@@ -1,4 +1,4 @@
-package com.example.mvp;
+package com.foodfinder.mvp;
 
 //root element for views
 public interface View {

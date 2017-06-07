@@ -49,7 +49,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.navigate);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

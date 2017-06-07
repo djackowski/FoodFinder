@@ -2,7 +2,6 @@ package com.foodfinder.choice;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.models.Food;
+import com.foodfinder.Base64Parser;
+import com.foodfinder.Food;
 import com.foodfinder.R;
 
 import java.util.List;
@@ -42,10 +42,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     public void onBindViewHolder(final FoodViewHolder holder, int position) {
 
         final Food food = foodList.get(position);
-        int photoId = food.getPhotoId();
-        holder.getPhoto().setImageBitmap(scale(photoId));
-        holder.getName().setText(food.getName());
+        String photoId = foodList.get(position).getImage();
 
+        Bitmap decoded = Base64Parser.decode(photoId);
+
+        Bitmap scaled = scale(decoded);
+
+        holder.getPhoto().setImageBitmap(scaled);
+        holder.getName().setText(food.getName());
+        holder.getRestaurant().setText(food.getRestaurantName());
+        holder.getDistance().setText(food.getDistance() + "km");
         ViewCompat.setTransitionName(holder.getPhoto(), String.valueOf(food.getName() + position));
 
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +62,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         });
     }
 
-    private Bitmap scale(int drawable) {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
+    private Bitmap scale(Bitmap bitmap) {
         int height = (bitmap.getHeight() * 512 / bitmap.getWidth());
         return Bitmap.createScaledBitmap(bitmap, 512, height, true);
     }
@@ -77,6 +82,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         LinearLayout view;
         @BindView(R.id.chosen_food_name)
         TextView name;
+        @BindView(R.id.chosen_restaurant_name)
+        TextView restaurant;
+        @BindView(R.id.chosen_distance)
+        TextView distance;
         @BindView(R.id.chosen_food_photo)
         ImageView photo;
 
@@ -91,6 +100,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
         public ImageView getPhoto() {
             return photo;
+        }
+
+        public TextView getDistance() {
+            return distance;
+        }
+
+        public TextView getRestaurant() {
+            return restaurant;
         }
     }
 

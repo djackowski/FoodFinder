@@ -11,14 +11,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.foodfinder.Base64Parser;
 import com.foodfinder.R;
-import com.example.models.Food;
+import com.foodfinder.Food;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SwipeDeckAdapter extends BaseAdapter {
 
-    private List<Food> data;
+    private List<Food> data = new ArrayList<>();
     private Context context;
 
     public SwipeDeckAdapter(List<Food> data, Context context) {
@@ -50,23 +52,23 @@ public class SwipeDeckAdapter extends BaseAdapter {
             v = inflater.inflate(R.layout.swipe_deck_single_card, parent, false);
         }
         ((TextView) v.findViewById(R.id.food_name)).setText(data.get(position).getName());
-        ((TextView) v.findViewById(R.id.distance)).setText("2 km");//TODO: (Distance) hardcoded CHANGE IT
-        int photoId = data.get(position).getPhotoId();
+        ((TextView) v.findViewById(R.id.distance)).setText(data.get(position).getDistance() + "km");
+        String photoId = data.get(position).getImage();
 
-        ((ImageView) v.findViewById(R.id.food_photo)).setImageBitmap(scale(photoId));
+        Bitmap decoded = Base64Parser.decode(photoId);
 
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Food item = (Food)getItem(position);
-                Log.i("MainActivity", item.getName());
-            }
-        });
+        Bitmap scaled = scale(decoded);
+
+        ((ImageView) v.findViewById(R.id.food_photo)).setImageBitmap(scaled);
 
         return v;
     }
-    private Bitmap scale(int drawable) {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
+
+    public void addAll(List<Food> result) {
+        data.addAll(result);
+        notifyDataSetChanged();
+    }
+    private Bitmap scale(Bitmap bitmap) {
         int height = (bitmap.getHeight() * 512 / bitmap.getWidth());
         return  Bitmap.createScaledBitmap(bitmap, 512, height, true);
     }

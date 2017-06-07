@@ -5,24 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.models.Opinion;
+import com.foodfinder.Food;
 import com.foodfinder.R;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OpinionAdapter extends RecyclerView.Adapter<OpinionAdapter.OpinionViewHolder> {
     private Context context;
-    private List<Opinion> opinionList;
+    private Food food;
 
-    public OpinionAdapter(Context context, List<Opinion> opinionList) {
+    public OpinionAdapter(Context context, Food food) {
         this.context = context;
-        this.opinionList = opinionList;
+        this.food = food;
     }
 
     @Override
@@ -34,17 +31,16 @@ public class OpinionAdapter extends RecyclerView.Adapter<OpinionAdapter.OpinionV
 
     @Override
     public void onBindViewHolder(final OpinionViewHolder holder, int position) {
-        final Opinion opinion = opinionList.get(position);
 
-        holder.getPersonName().setText(opinion.getPersonName());
-        holder.getComment().setText(opinion.getOpinion());
-        holder.getRating().setText(String.valueOf(opinion.getRating()));
+        holder.getPersonName().setText(food.getCustomer());
+        holder.getComment().setText(food.getComment());
+        holder.getRating().setText(String.valueOf(food.getStars()));
 
     }
 
     @Override
     public int getItemCount() {
-        return opinionList.size();
+        return 1;
     }
 
 

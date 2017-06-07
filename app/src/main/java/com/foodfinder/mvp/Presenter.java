@@ -1,4 +1,4 @@
-package com.example.mvp;
+package com.foodfinder.mvp;
 
 public abstract class Presenter<T extends View> {
     protected T view;

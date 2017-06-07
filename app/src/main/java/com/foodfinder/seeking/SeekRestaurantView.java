@@ -1,6 +1,6 @@
-package com.example.seeking;
+package com.foodfinder.seeking;
 
-import com.example.mvp.View;
+import com.foodfinder.mvp.View;
 
 public interface SeekRestaurantView extends View {
     void goToChosenFoodScreen();
